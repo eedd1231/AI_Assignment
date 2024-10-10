@@ -1,0 +1,21 @@
+#!/usr/bin/swipl -f -q
+
+/* Facts */
+male(john).             % John is male
+male(son).              % Son is male
+female(mother).        % Mother is female
+
+/* Family Relationships */
+father(john, son).      % John is the father of his son
+father(mother, son).    % Mother is also the mother of his son
+
+/* Rule to deduce who "that man" is */
+that_man(X) :-
+    father(Y, X),        % X's father is Y
+    father(Z, Y),        % Y's father is Z
+    father(Z, john),     % John’s father is also Z
+    Y = john.            % Since John has no siblings
+
+/* Run the program to find out who "that man" is */
+:- that_man(Who), 
+   writenlist(['The man referred to in the riddle is: ', Who]).
